@@ -1,6 +1,8 @@
-package com.leandronazareth.mensagens_rabbitmq;
+package com.leandronazareth.mensagens_rabbitmq.repository;
 
 import org.springframework.stereotype.Repository;
+
+import com.leandronazareth.mensagens_rabbitmq.model.Sms;
 
 @Repository
 public class SmsRepository {
@@ -16,13 +18,15 @@ public class SmsRepository {
             logger.error("Thread interrompida durante espera de recebimento de mensagem.");
             return null;
         }
-        // aqui em produção faço uma chamada em um sistema externo com protocolo soap
-        Sms msg = new Sms();
-        // random gerar STRING aleatoriA COM 10 CARACTERES
-        String randomString = java.util.UUID.randomUUID().toString().substring(0, 10);
-        msg.setId(randomString);
-        msg.setMensagem(mensagem);
-        return msg;
+    // In production this method should call the external SMS gateway (e.g. SOAP/HTTP)
+    // and return the provider-assigned id. Here we simulate it by generating a random id
+    // and returning the same message text back as confirmation.
+    Sms msg = new Sms();
+    // random gerar STRING aleatoriA COM 10 CARACTERES
+    String randomString = java.util.UUID.randomUUID().toString().substring(0, 10);
+    msg.setId(randomString);
+    msg.setMensagem(mensagem);
+    return msg;
     }
 
     public Sms consultarRecebimentoSms(String idMensagem) {
@@ -35,6 +39,8 @@ public class SmsRepository {
             logger.error("Thread interrompida durante espera de recebimento de mensagem.");
             return null;
         }
+        // Simulate occasional responses. In a real implementation you would query
+        // the gateway for any delivered/received replies for the given id.
         Sms msg = new Sms();
         msg.setId(idMensagem);
         if (RANDOM.nextBoolean()) {
