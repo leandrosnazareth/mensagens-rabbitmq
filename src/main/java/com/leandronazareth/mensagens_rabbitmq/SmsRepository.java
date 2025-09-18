@@ -3,12 +3,12 @@ package com.leandronazareth.mensagens_rabbitmq;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class MensagemRepository {
+public class SmsRepository {
 
     private static final java.util.Random RANDOM = new java.util.Random();
-    private static final org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger(MensagemRepository.class);
+    private static final org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger(SmsRepository.class);
 
-    public Mensagem enviaMensagem(String mensagem) {
+    public Sms enviaSms(String mensagem) {
         try {
             Thread.sleep(2000);
         } catch (InterruptedException e) {
@@ -17,7 +17,7 @@ public class MensagemRepository {
             return null;
         }
         // aqui em produção faço uma chamada em um sistema externo com protocolo soap
-        Mensagem msg = new Mensagem();
+        Sms msg = new Sms();
         // random gerar STRING aleatoriA COM 10 CARACTERES
         String randomString = java.util.UUID.randomUUID().toString().substring(0, 10);
         msg.setId(randomString);
@@ -25,7 +25,7 @@ public class MensagemRepository {
         return msg;
     }
 
-    public Mensagem consultarRecebimentoMensagem(String idMensagem) {
+    public Sms consultarRecebimentoSms(String idMensagem) {
         // aqui em produção faço uma chamada em um sistema externo com protocolo soap
         // sperar 2 segundos
         try {
@@ -35,7 +35,7 @@ public class MensagemRepository {
             logger.error("Thread interrompida durante espera de recebimento de mensagem.");
             return null;
         }
-        Mensagem msg = new Mensagem();
+        Sms msg = new Sms();
         msg.setId(idMensagem);
         if (RANDOM.nextBoolean()) {
             msg.setMensagem(idMensagem + " - Resposta");

@@ -10,33 +10,33 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-public class MensagemServiceTest {
+public class SmsServiceTest {
     @Autowired
-    MensagemRepository mensagemRepository;
+    SmsRepository smsRepository;
     @Autowired
-    MensagemService mensagemService;
+    SmsService smsService;
 
     @Test
     void testProcessarMensagem_Sucesso() {
-        Mensagem resultado = mensagemService.processarMensagem("Teste");
+        Sms resultado = smsService.processarSms("Teste");
         assertNotNull(resultado);
         assertEquals(resultado.getId() + " - Resposta", resultado.getMensagem());
     }
 
     @Test
     void testProcessarMensagem_FalhaEnvio() {
-        Mensagem resultado = mensagemService.processarMensagem("Teste");
+        Sms resultado = smsService.processarSms("Teste");
         assertNull(resultado);
     }
 
     @Test
     void testProcessarMensagem_FalhaRecebimento() {
-        Mensagem enviada = new Mensagem();
+        Sms enviada = new Sms();
         enviada.setId("1234567890");
         enviada.setMensagem("Teste");
-        Mockito.when(mensagemRepository.enviaMensagem(Mockito.anyString())).thenReturn(enviada);
-        Mockito.when(mensagemRepository.consultarRecebimentoMensagem(Mockito.anyString())).thenReturn(null);
-        Mensagem resultado = mensagemService.processarMensagem("Teste");
+        Mockito.when(smsRepository.enviaSms(Mockito.anyString())).thenReturn(enviada);
+        Mockito.when(smsRepository.consultarRecebimentoSms(Mockito.anyString())).thenReturn(null);
+        Sms resultado = smsService.processarSms("Teste");
         assertNull(resultado);
     }
 }

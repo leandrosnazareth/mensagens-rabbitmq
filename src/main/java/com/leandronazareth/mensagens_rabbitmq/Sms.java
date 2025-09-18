@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Mensagem {
+public class Sms {
 
     private String id;
     private String mensagem;
